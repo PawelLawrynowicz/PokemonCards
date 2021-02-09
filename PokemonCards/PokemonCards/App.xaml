@@ -3,6 +3,67 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PokemonCards.App">
     <Application.Resources>
+        
+        
+        
+        <!-- ABY GLOBALNIE ZMIENIĆ CZICIONKE:
+        
+        Dla Androida pliki z czcionkami do .Android/Assets
+        Dla iOS      pliki z czcionkami do .iOS/Resources oraz należy dodać do pliku Info.Plist:
+        
+        <key>UIAppFonts</key>
+	    <array>
+		    <string>MontserratAlternates-Bold.ttf</string>
+		    <string>MontserratAlternates-Medium.ttf</string>
+		    <string>MontserratAlternates-Regular.ttf</string>
+	    </array>
+           
+        -->
+        
+        
+        <OnPlatform x:Key="RegularFont" x:TypeArguments="x:String">
+            <On Platform="Android" Value="MontserratAlternates-Regular.ttf#MontserratAlternates-Regular" />
+            <On Platform="iOS" Value="MontserratAlternates-Regular" />
+        </OnPlatform>
+        
+        <OnPlatform x:Key="MediumFont" x:TypeArguments="x:String">
+            <On Platform="Android" Value="MontserratAlternates-Medium.ttf#MontserratAlternates-Medium" />
+            <On Platform="iOS" Value="MontserratAlternates-Medium" />
+        </OnPlatform>
+
+        <OnPlatform x:Key="BoldFont" x:TypeArguments="x:String">
+            <On Platform="Android" Value="MontserratAlternates-Bold.ttf#MontserratAlternates-Bold" />
+            <On Platform="iOS" Value="MontserratAlternates-Bold" />
+        </OnPlatform>
+
+        <Style x:Key="Header" TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource BoldFont}" />
+            <Setter Property="FontSize" Value="50" />
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+
+        <Style x:Key="Subheader" TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource MediumFont}" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+
+        <Style x:Key="Paragraph" TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource RegularFont}" />
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+
+        <Style TargetType="StackLayout">
+            <Setter Property="Spacing" Value="0" />
+        </Style>
+
+        <Style TargetType="Grid">
+            <Setter Property="RowSpacing" Value="0" />
+            <Setter Property="ColumnSpacing" Value="0" />
+        </Style>
+
+
 
     </Application.Resources>
 </Application>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PokemonCards.View.PokemonCardView">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="250" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <BoxView Grid.Row="1"
+                                 BackgroundColor="{Binding PokemonPrimaryColor}" 
+                                 CornerRadius="30"
+                                 x:Name="PokemonBackground"/>
+                                
+                    <Image     Grid.Row="1"
+                               Source="{Binding PokemonImage}"
+                               VerticalOptions="Start"
+                               WidthRequest="320"
+                               TranslationY="-160"
+                               x:Name="PokemonMainImage"
+                               />
+        <StackLayout Grid.Row="1" Margin="30,150,30,30">
+            <Label Text="{Binding PokemonName}"
+                                   Style="{StaticResource Header}"
+                                   TextColor="White"
+                                    x:Name="PokemonTempName"/>
+            <Label Text="{Binding PokemonDescription}" 
+                                   Style="{StaticResource Subheader}"
+                                   TextColor="White"/>
+        </StackLayout>
+        <Label Text="See more →" 
+                               x:Name = "SeeMoreLabel"
+                               Style="{StaticResource Subheader}"
+                               TextColor="{Binding PokemonSecondaryColor}"
+                               VerticalOptions="End"
+                               Margin="30,0,0,50"
+                               Grid.Row="1">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="SeeMore_Tapped"/>
+                                </Label.GestureRecognizers>
+        </Label>
+
+    </Grid>
+</ContentView>

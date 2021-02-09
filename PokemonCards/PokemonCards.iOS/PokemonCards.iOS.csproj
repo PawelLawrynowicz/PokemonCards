@@ -68,6 +68,9 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <BundleResource Include="Resources\MontserratAlternates-Bold.ttf" />
+    <BundleResource Include="Resources\MontserratAlternates-Medium.ttf" />
+    <BundleResource Include="Resources\MontserratAlternates-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -123,6 +126,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CardsView">
+      <Version>2.7.0</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
@@ -132,5 +138,50 @@
       <Project>{D15DE9D9-829A-475F-A2EA-71469EA722D1}</Project>
       <Name>PokemonCards</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\bulbasaur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\bulbasaur%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\bulbasaur%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\charmander.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\charmander%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\charmander%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pikachu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pikachu%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pikachu%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\squirtle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\squirtle%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\squirtle%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\arrow_return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\arrow_return%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\arrow_return%403x.png" />
   </ItemGroup>
 </Project>
