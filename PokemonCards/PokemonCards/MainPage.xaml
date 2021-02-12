@@ -18,15 +18,20 @@
         </cards:CardsView>
 
         <Label x:Name="PokemonHeader"
-                   Margin="25"
-                   HorizontalOptions="Center"
-                   Text="Pokémon"
+               Margin="25"
+               VerticalOptions="Start"
+               HorizontalOptions="Center"
+               Text="Pokémon"
                Style="{StaticResource Subheader}"/>
         <Image
             Source="arrow_return.png" 
             HorizontalOptions="Start"
             VerticalOptions="Start"
-            Margin="35"/>
+            Margin="35">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ArrowBack_Tapped"/>
+            </Image.GestureRecognizers>
+        </Image>
     </Grid>
 
 </ContentPage>

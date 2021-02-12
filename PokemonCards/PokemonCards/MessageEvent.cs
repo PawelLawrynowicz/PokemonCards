@@ -4,9 +4,7 @@ using System.Text;
 
 namespace PokemonCards
 {
-	public enum CardState
+	class MessageEvent
 	{
-		Expanded,
-		Collapsed
 	}
 }

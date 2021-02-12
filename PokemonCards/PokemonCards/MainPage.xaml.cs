@@ -25,14 +25,53 @@ namespace PokemonCards
 		{
 			base.OnAppearing();
 			MainCardView.UserInteracted += MainCardView_UserInteracted;
+			MessagingCenter.Subscribe<CardEvent>(this, CardState.Expanded.ToString(), CardExpand);
 		}
+
+		private void CardExpand(CardEvent obj)
+		{
+			//turn off swiping
+			MainCardView.IsUserInteractionEnabled = false;
+
+			//animate the title
+			AnimateTitle(CardState.Expanded);
+		}
+
+		private void ArrowBack_Tapped (object sender, EventArgs e)
+		{
+
+			//animate the title
+			AnimateTitle(CardState.Collapsed);
+
+			//give collapsed status
+			((PokemonCardView)MainCardView.CurrentView).GoToState(CardState.Collapsed);
+
+			// turn on swiping
+			MainCardView.IsUserInteractionEnabled = true;
+
+			
+		}
+
+		private void AnimateTitle(CardState cardState)
+		{
+
+			var translation = cardState == CardState.Expanded ? -PokemonHeader.Height - PokemonHeader.Margin.Top : 0;
+			var opacity = cardState == CardState.Expanded ? 0 : 1;
+
+			var animation = new Animation();
+			animation.Add(0, 1, new Animation(v => PokemonHeader.TranslationY = v, PokemonHeader.TranslationY, translation));
+			animation.Add(0, 1, new Animation(v => PokemonHeader.Opacity = v, PokemonHeader.Opacity, opacity));
+
+			animation.Commit(this, "titleAnimation", 16, 750);
+		}
+
 		protected override void OnDisappearing()
 		{
 			base.OnDisappearing();
 			MainCardView.UserInteracted -= MainCardView_UserInteracted;
+			MessagingCenter.Unsubscribe<CardEvent>(this, CardState.Expanded.ToString());
 		}
 
-		bool firstTimeRunning = true;
 		private void MainCardView_UserInteracted(PanCardView.CardsView view, 
 			PanCardView.EventArgs.UserInteractedEventArgs args)
 		{
@@ -98,6 +137,8 @@ namespace PokemonCards
 			}
 			if (args.Status == PanCardView.Enums.UserInteractionStatus.Ended)
 			{
+				if (MainCardView.CurrentBackViews.Count() == 0)
+					return;
 				var prevCard = MainCardView.CurrentBackViews.First() as PokemonCardView;
 				Debug.WriteLine($"CurrentView: {prevCard.PokemonName.Text}");
 				prevCard.CardBackground.Opacity = 1;

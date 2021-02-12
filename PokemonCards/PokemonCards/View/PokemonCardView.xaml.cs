@@ -12,7 +12,7 @@ namespace PokemonCards.View
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PokemonCardView : ContentView
 	{
-		private CardState _cardState = CardState.Collapesed;
+		private CardState _cardState = CardState.Collapsed;
 		public PokemonCardView()
 		{
 			InitializeComponent();
@@ -28,7 +28,7 @@ namespace PokemonCards.View
 			GoToState(CardState.Expanded);
 		}
 
-		private void GoToState(CardState cardState)
+		public void GoToState(CardState cardState)
 		{
 			// trigger an animation
 			if (_cardState == cardState)
