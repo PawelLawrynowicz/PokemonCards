@@ -1,29 +1,43 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PokemonCards.View.PokemonCardView">
+             x:Class="PokemonCards.View.PokemonCardView"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="250" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <BoxView Grid.Row="1" BackgroundColor="{Binding PokemonPrimaryColor}"  CornerRadius="30" x:Name="PokemonBackground"/>
+        <skia:SKCanvasView
+            x:Name="CardBackground"
+            HorizontalOptions="Fill"
+            PaintSurface="CardBackground_PaintSurface"
+            VerticalOptions="Fill"
+            />
 
-        <Image     Grid.Row="1"
-                   Source="{Binding PokemonImage}"
-                   VerticalOptions="Start"
-                   WidthRequest="320"
-                   TranslationY="-160"
-                   x:Name="PokemonMainImage"
-                   />
-        <StackLayout Grid.Row="1" Margin="30,150,30,30">
+        <!--<BoxView Grid.Row="1" BackgroundColor="{Binding PokemonPrimaryColor}"  CornerRadius="30" x:Name="PokemonBackground"/>-->
+        <StackLayout x:Name = "PokemonContent" VerticalOptions="Start">
+            <Image     
+            x:Name="PokeImage"
+            HeightRequest="280"
+            WidthRequest="280"
+            Source="{Binding PokemonImage}"
+            VerticalOptions="Start"
+            />
+        
             <Label Text="{Binding PokemonName}"
                    Style="{StaticResource Header}"
-                   TextColor="White"
-                   x:Name="PokemonTempName"/>
+                   TextColor="Black"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start"
+                   x:Name="PokeName"
+                   />
             <Label Text="{Binding PokemonDescription}" 
                    Style="{StaticResource Subheader}"
-                   TextColor="White"/>
+                   TextColor="Black"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start"
+                   x:Name="PokeDescription"/>
+            
         </StackLayout>
         <Label Text="See more →" 
                x:Name = "SeeMoreLabel"
@@ -31,7 +45,7 @@
                TextColor="{Binding PokemonSecondaryColor}"
                VerticalOptions="End"
                Margin="30,0,0,50"
-               Grid.Row="1">
+               >
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Tapped="SeeMore_Tapped"/>
             </Label.GestureRecognizers>

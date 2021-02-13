@@ -15,6 +15,9 @@ namespace PokemonCards
 {
 	public partial class MainPage : ContentPage
 	{
+		private double _pokeImageTranslationY = 50;
+		private double _movementFactor = 100;
+
 		public MainPage()
 		{
 			InitializeComponent();
@@ -48,8 +51,6 @@ namespace PokemonCards
 
 			// turn on swiping
 			MainCardView.IsUserInteractionEnabled = true;
-
-			
 		}
 
 		private void AnimateTitle(CardState cardState)
@@ -62,7 +63,7 @@ namespace PokemonCards
 			animation.Add(0, 1, new Animation(v => PokemonHeader.TranslationY = v, PokemonHeader.TranslationY, translation));
 			animation.Add(0, 1, new Animation(v => PokemonHeader.Opacity = v, PokemonHeader.Opacity, opacity));
 
-			animation.Commit(this, "titleAnimation", 16, 750);
+			animation.Commit(this, "titleAnimation", 16, 250);
 		}
 
 		protected override void OnDisappearing()
@@ -72,78 +73,80 @@ namespace PokemonCards
 			MessagingCenter.Unsubscribe<CardEvent>(this, CardState.Expanded.ToString());
 		}
 
-		private void MainCardView_UserInteracted(PanCardView.CardsView view, 
+		private void MainCardView_UserInteracted(
+			PanCardView.CardsView view, 
 			PanCardView.EventArgs.UserInteractedEventArgs args)
 		{
-			
-			//Get current card
 			var card = MainCardView.CurrentView as PokemonCardView;
-			//Animation factors
-			var delayCardOpacityFactor = 0.6;
-			var delayImageScaleFactor = 0.4;
-			var imageHeight = card.MainImage.Height;
-			var delayImageOpacityFactor = 0.3;
-			//Figure out how far its swiped and add opacity based on that
-			var ratioFromCenter = Math.Abs(args.Diff / this.Width);
-			
 			if (args.Status == PanCardView.Enums.UserInteractionStatus.Running)
 			{
 				
+				var ratioFromCenter = Math.Abs(args.Diff / this.Width);
 
-				//Change current's card opacity during swipe
-				var opacity = LimitRange((1 + delayCardOpacityFactor) - ratioFromCenter,0,1);
-				card.CardBackground.Opacity = opacity;
+				animateFirstCard(card, ratioFromCenter);
 
-				
-
-				//Scale current's card image down during swipe
-				var scale = LimitRange((1+delayImageScaleFactor) - (ratioFromCenter*1.75),0.2,1);
-				card.MainImage.Scale = scale;
-
-				if (ratioFromCenter > 0 && scale == 1)
-				{
-					card.ScaleTo(0.95, 50);
-				}
-
-				//Translate current's card image as it's scaling down
-				var translateY = (-imageHeight + (1-scale)*imageHeight)/2;
-				card.MainImage.TranslationY = translateY;
-
-				//Change current's card image opacity during swipe
-				var imageOpacity = LimitRange((1 + delayImageOpacityFactor) - (ratioFromCenter*1.5), 0, 1);
-				card.MainImage.Opacity = imageOpacity;
-
-				//Animate 2nd card
 
 				var nextCard = MainCardView.CurrentBackViews.First() as PokemonCardView;
 
-					//Opacity
-				nextCard.MainImage.Opacity = LimitRange((ratioFromCenter-0.3) * 3,0,1);
-					//Scale
-				var nextScale = LimitRange(ratioFromCenter * 1.25, 0, 1);
-				//Translation
-				nextCard.MainImage.Scale = nextScale;
-				nextCard.MainImage.TranslationY = - (nextScale * imageHeight) / 2;
+				animateSecondCard(nextCard, ratioFromCenter);
+
 			}
 
 			//Reset parameters of the card after swipe so it doens't look stupid
 			if (args.Status == PanCardView.Enums.UserInteractionStatus.Ending)
 			{
-				var nextCard = MainCardView.CurrentView as PokemonCardView;
-				nextCard.MainImage.FadeTo(1, 250);
-				nextCard.MainImage.ScaleTo(1, 250);
-				nextCard.MainImage.TranslateTo(this.X, -160, 250);
+				card.MainImage.FadeTo(1, 250);
+				card.MainImage.ScaleTo(1, 250);
+				card.MainImage.TranslateTo(this.X, 0, 250);
 				card.ScaleTo(1, 50);
 			}
+
+
 			if (args.Status == PanCardView.Enums.UserInteractionStatus.Ended)
 			{
 				if (MainCardView.CurrentBackViews.Count() == 0)
 					return;
 				var prevCard = MainCardView.CurrentBackViews.First() as PokemonCardView;
-				Debug.WriteLine($"CurrentView: {prevCard.PokemonName.Text}");
-				prevCard.CardBackground.Opacity = 1;
+				prevCard.MainImage.TranslationY = 0;
 			}
+		}
 
+		
+		private void animateFirstCard(PokemonCardView card ,double ratioFromCenter)
+		{
+			var delayCardOpacityFactor = 0.6;
+			var delayImageScaleFactor = 0.4;
+			var delayImageOpacityFactor = 0.3;
+
+			MainCardView.CurrentView.Opacity = LimitRange((1 + delayCardOpacityFactor) - ratioFromCenter, 0, 1);
+
+			var scale = LimitRange((1 + delayImageScaleFactor) - (ratioFromCenter * 1.75), 0.2, 1);
+
+			card.MainImage.Scale = scale;
+			Debug.WriteLine($"Y1: {((1 - scale) * card.MainImage.Height)/2}");
+			card.MainImage.TranslationY =  ((1 - scale) * card.MainImage.Height)/2;
+			
+
+			card.MainImage.Opacity = LimitRange((1 + delayImageOpacityFactor) - (ratioFromCenter * 1.5), 0, 1);
+			/*
+			if (ratioFromCenter > 0 && scale == 1)
+			{
+				card.ScaleTo(0.95, 50);
+			}
+			*/
+		}
+
+		private void animateSecondCard(PokemonCardView card, double ratioFromCenter)
+		{
+			card.MainImage.Opacity = LimitRange((ratioFromCenter - 0.3) * 3, 0, 1);
+
+			var scale = LimitRange(ratioFromCenter * 1.25, 0, 1);
+
+			card.MainImage.Scale = scale;
+
+			//broken
+			Debug.WriteLine($"Y2: {112 + -(scale * card.MainImage.Height)}");
+			card.MainImage.TranslationY = 112 + -(scale * card.MainImage.Height);
 		}
 	}
 }
