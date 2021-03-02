@@ -22,6 +22,7 @@ namespace PokemonCards.View
 		private readonly float _density;
 		private readonly float _cardTopMargin;
 		private readonly float _cornerRadius;
+		private readonly float _contentYTranslation;
 
 		SKColor _pokeColor;
 		SKPaint _pokePaint;
@@ -42,6 +43,8 @@ namespace PokemonCards.View
 			_cornerRadius = 30f * _density;
 
 			PokemonContent.Margin = new Thickness(30, _cardTopMargin/6, 0, 0);
+
+			_contentYTranslation = -_cardTopMargin / 6 + 25;
 
 		}
 		
@@ -112,14 +115,22 @@ namespace PokemonCards.View
 			var parentAnimation = new Animation();
 			if (cardState == CardState.Expanded)
 			{
-				parentAnimation.Add(0, 0.1, CardAnimation(cardState));
+				parentAnimation.Add(0.000, 0.125, CardAnimation(cardState)); //15 frames, starts at frame 0
+				parentAnimation.Add(0.042, 0.500, ImageAnimation(cardState)); //55 frames,starts at frame 5
+				parentAnimation.Add(0.167, 0.458, PokeNameAnimation(cardState)); //35 frames, starts at frame 20
+				parentAnimation.Add(0.183, 0.475, PokeDescriptionAnimation(cardState)); //35 frames, starts at frame 22
 			}
 			else
 			{
-				parentAnimation.Add(0, 0.1, CardAnimation(cardState));
+				parentAnimation.Add(0, 0.15, CardAnimation(cardState));
+				parentAnimation.Add(0, 0.25, ImageAnimation(cardState));
+				parentAnimation.Add(0.2, 0.37, PokeNameAnimation(cardState));
+				parentAnimation.Add(0.183, 0.350, PokeDescriptionAnimation(cardState));
 			}
 			parentAnimation.Commit(this, "CardExpand", 16, 2000);
 		}
+
+		
 
 		private Animation CardAnimation(CardState cardState)
 		{
@@ -137,9 +148,59 @@ namespace PokemonCards.View
 				animationStart,
 				animationStop,
 				Easing.SinInOut
+				) ;
+			return animation;
+		}
+
+		private Animation ImageAnimation(CardState cardState)
+		{
+			var animationStart = cardState == CardState.Expanded ? 0 : _contentYTranslation;
+			var animationStop = cardState == CardState.Expanded ? _contentYTranslation : 0;
+			Debug.WriteLine($"Y: {PokeImage.TranslationY}");
+			var animation = new Animation(
+				v =>
+				{
+					PokeImage.TranslationY = v;
+				},
+				animationStart,
+				animationStop,
+				Easing.SpringOut
+				);
+			return animation;
+		}
+
+		
+
+		private Animation PokeNameAnimation(CardState cardState)
+		{
+			var animationStart = cardState == CardState.Expanded ? 0 : _contentYTranslation;
+			var animationStop = cardState == CardState.Expanded ? _contentYTranslation : 0;
+			var animation = new Animation(
+				v =>
+				{
+					PokeName.TranslationY = v;
+				},
+				animationStart,
+				animationStop,
+				Easing.SpringOut
+				);
+			return animation;
+		}
+
+		private Animation PokeDescriptionAnimation(CardState cardState)
+		{
+			var animationStart = cardState == CardState.Expanded ? 0 : _contentYTranslation;
+			var animationStop = cardState == CardState.Expanded ? _contentYTranslation : 0;
+			var animation = new Animation(
+				v =>
+				{
+					PokeDescription.TranslationY = v;
+				},
+				animationStart,
+				animationStop,
+				Easing.SpringOut
 				);
 			return animation;
 		}
 	}
-
 }

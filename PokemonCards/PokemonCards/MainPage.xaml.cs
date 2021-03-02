@@ -60,10 +60,18 @@ namespace PokemonCards
 			var opacity = cardState == CardState.Expanded ? 0 : 1;
 
 			var animation = new Animation();
-			animation.Add(0, 1, new Animation(v => PokemonHeader.TranslationY = v, PokemonHeader.TranslationY, translation));
-			animation.Add(0, 1, new Animation(v => PokemonHeader.Opacity = v, PokemonHeader.Opacity, opacity));
-
-			animation.Commit(this, "titleAnimation", 16, 250);
+			//Whole title animation takes 8 frames
+			if (cardState == CardState.Expanded)
+			{
+				animation.Add(0, 0.13, new Animation(v => PokemonHeader.TranslationY = v, PokemonHeader.TranslationY, translation));
+				animation.Add(0, 0.13, new Animation(v => PokemonHeader.Opacity = v, PokemonHeader.Opacity, opacity));
+			}
+			else
+			{
+				animation.Add(0.87, 1, new Animation(v => PokemonHeader.TranslationY = v, PokemonHeader.TranslationY, translation));
+				animation.Add(0.87, 1, new Animation(v => PokemonHeader.Opacity = v, PokemonHeader.Opacity, opacity));
+			}
+			animation.Commit(this, "titleAnimation", 16, 1000);
 		}
 
 		protected override void OnDisappearing()
@@ -128,12 +136,12 @@ namespace PokemonCards
 			
 
 			card.MainImage.Opacity = LimitRange((1 + delayImageOpacityFactor) - (ratioFromCenter * 1.5), 0, 1);
-			/*
+			
 			if (ratioFromCenter > 0 && scale == 1)
 			{
 				card.ScaleTo(0.95, 50);
 			}
-			*/
+			
 		}
 
 		private void animateSecondCard(PokemonCardView card, double ratioFromCenter)
@@ -144,9 +152,9 @@ namespace PokemonCards
 
 			card.MainImage.Scale = scale;
 
-			//broken
-			Debug.WriteLine($"Y2: {112 + -(scale * card.MainImage.Height)}");
-			card.MainImage.TranslationY = 112 + -(scale * card.MainImage.Height);
+			
+			Debug.WriteLine($"Y2: {card.MainImage.Height}");
+			card.MainImage.TranslationY = (card.MainImage.Height-scale*card.MainImage.Height)/2;
 		}
 	}
 }

@@ -14,7 +14,6 @@
             VerticalOptions="Fill"
             />
 
-        <!--<BoxView Grid.Row="1" BackgroundColor="{Binding PokemonPrimaryColor}"  CornerRadius="30" x:Name="PokemonBackground"/>-->
         <StackLayout x:Name = "PokemonContent" VerticalOptions="Start">
             <Image     
             x:Name="PokeImage"
@@ -26,14 +25,14 @@
         
             <Label Text="{Binding PokemonName}"
                    Style="{StaticResource Header}"
-                   TextColor="Black"
+                   TextColor="White"
                    HorizontalOptions="Start"
                    VerticalOptions="Start"
                    x:Name="PokeName"
                    />
             <Label Text="{Binding PokemonDescription}" 
                    Style="{StaticResource Subheader}"
-                   TextColor="Black"
+                   TextColor="White"
                    HorizontalOptions="Start"
                    VerticalOptions="Start"
                    x:Name="PokeDescription"/>

@@ -4,12 +4,12 @@
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
              xmlns:view="clr-namespace:PokemonCards.View"
              x:Class="PokemonCards.MainPage">
-
+    //hello git
     <Grid>
         <cards:CardsView ItemsSource="{Binding Pokemons}"
                          IsCyclical="True"
                          x:Name="MainCardView"
-                         IsOnlyForwardDirection="True">
+                         IsOnlyForwardDirection="False">
             <cards:CardsView.ItemTemplate>
                 <DataTemplate>
                     <view:PokemonCardView Margin="0,0,0,-20"/>
