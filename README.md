@@ -4,4 +4,5 @@
 
 Here is how it looks with the current code:
 <img src="sneakpeek.gif" width=40% height=40%/>
+
 Maybe I'll get to finish it one day
