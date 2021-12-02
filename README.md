@@ -4,4 +4,3 @@
 
 Here is how it looks with the current code:<br />
 <img src="sneakpeek.gif" width=40% height=40%/><br />
-Maybe I'll get to finish it one day
